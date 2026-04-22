@@ -1,7 +1,6 @@
 'use client'
-
 import { authClient } from "@/lib/auth-client";
-import { redirect } from "next/dist/server/api-utils";
+import { Button, Description, FieldError, Form, Input, Label, TextField } from "@heroui/react";
 
 const SignInPage = () => {
     const onSubmit = async (e)=>{
@@ -12,7 +11,7 @@ const SignInPage = () => {
             email: userData.email,
             password: userData.password,
             rememberMe: true,
-            callbackURL: ''
+            callbackURL: '/'
         })
         if(data){
             alert('Sign in success!');

@@ -1,7 +1,6 @@
 "use client";
 import { authClient } from "@/lib/auth-client";
 import { Button, Description, FieldError, Form, Input, Label, TextField } from "@heroui/react";
-import { email } from "better-auth";
 
 const SignUpPage = () => {
     const onSubmit = async (e) => {
@@ -12,7 +11,8 @@ const SignUpPage = () => {
         const { data, error } = await authClient.signUp.email({
             name: userData.name,
             email: userData.email,
-            password: userData.password
+            password: userData.password,
+            callbackURL: '/'
         })
         if(data){
             alert('Sign up success!')
