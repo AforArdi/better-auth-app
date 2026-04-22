@@ -1,21 +1,21 @@
-"use client";
-import { authClient } from "@/lib/auth-client";
-import { Button, Description, FieldError, Form, Input, Label, TextField } from "@heroui/react";
-import { email } from "better-auth";
+'use client'
 
-const SignUpPage = () => {
-    const onSubmit = async (e) => {
+import { authClient } from "@/lib/auth-client";
+import { redirect } from "next/dist/server/api-utils";
+
+const SignInPage = () => {
+    const onSubmit = async (e)=>{
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const userData = Object.fromEntries(formData.entries());
-        // console.log(userData, 'form submitted');
-        const { data, error } = await authClient.signUp.email({
-            name: userData.name,
+        const {data, error} = await authClient.signIn.email({
             email: userData.email,
-            password: userData.password
+            password: userData.password,
+            rememberMe: true,
+            callbackURL: ''
         })
         if(data){
-            alert('Sign up success!')
+            alert('Sign in success!');
         }
         if(error){
             alert(error.message);
@@ -23,26 +23,12 @@ const SignUpPage = () => {
     }
     return (
         <div className="flex flex-col justify-center gap-4 items-center mt-10">
-            <h2 className="font-bold text-4xl">Signup Page</h2>
+            <h2 className="font-bold text-4xl">SignIn Page</h2>
             <Form
                 className="flex w-96 flex-col gap-4"
                 render={(props) => <form {...props} data-custom="foo" />}
                 onSubmit={onSubmit}
             >
-                <TextField
-                    isRequired
-                    name="name"
-                    validate={(value) => {
-                        if (value.length < 3) {
-                            return "Name must be at least 3 characters";
-                        }
-                        return null;
-                    }}
-                >
-                    <Label>Name</Label>
-                    <Input placeholder="Type your name" />
-                    <FieldError />
-                </TextField>
                 <TextField
                     isRequired
                     name="email"
@@ -94,4 +80,4 @@ const SignUpPage = () => {
     );
 }
 
-export default SignUpPage;
+export default SignInPage;
