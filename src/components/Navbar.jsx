@@ -1,14 +1,12 @@
 'use client'
 
-import { useSession } from "@/lib/auth-client";
+import { signOut, useSession } from "@/lib/auth-client";
 import { Link, Button } from "@heroui/react";
 
 const Navbar = () => {
     const {data, isPending} = useSession();
-    if(isPending){
-        return <div>Loading...</div>
-    }
-    console.log('login success', data);
+    const user = data?.user
+    // console.log('login success', data);
 
     return (
         <nav className="sticky top-0 z-40 w-full border-b border-separator bg-background/70 backdrop-blur-lg">
@@ -21,7 +19,18 @@ const Navbar = () => {
                     <li><Link href="/dashboard">Dashboard</Link></li>
                     <li><Link href="/about">About</Link></li>
                 </ul>
-                <div></div>
+                <div>
+                    {user ? <>
+                    Welcome, {user.name}
+                    <Button
+                    onClick={()=>signOut()}
+                    variant="secondary">Sign out</Button>
+                    </> :
+                    
+                    <Link href='/auth/signin'>
+                        <Button variant="primary">Sign in</Button>
+                    </Link>}
+                </div>
             </header>
         </nav>
     );
